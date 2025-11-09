@@ -20,20 +20,22 @@ public static class PhoneticDictionary
 
     public static string PrepareText(this string text)
     {
-        if (s_PhoneticDictionary == null || !s_PhoneticDictionary.Any())
-            LoadDictionary();
+        //if (s_PhoneticDictionary == null || !s_PhoneticDictionary.Any())
+        //    LoadDictionary();
 
-        text = text.ToLower();
-        text = text.Replace("\"", "");
-        text = text.Replace("\r\n", ". ");
-        text = text.Replace("\n", ". ");
-        text = text.Replace("\r", ". ");
-        text = text.Trim();
+        //text = text.ToLower();
+        //text = text.Replace("\"", "");
+        //text = text.Replace("\r\n", ". ");
+        //text = text.Replace("\n", ". ");
+        //text = text.Replace("\r", ". ");
+        //text = text.Trim();
 
-        text = SpaceOutDate(text);
+        //text = SpaceOutDate(text);
 
         // Regex enabled dictionary
-        return s_PhoneticDictionary?.Aggregate(text, (current, entry) => Regex.Replace(current, entry.Key, entry.Value));
+        //return s_PhoneticDictionary?.Aggregate(text, (current, entry) => Regex.Replace(current, entry.Key, entry.Value));
+
+        return text;
     }
 
     public static void LoadDictionary()

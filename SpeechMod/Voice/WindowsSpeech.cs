@@ -1,14 +1,20 @@
 ﻿using Kingmaker;
 using Kingmaker.Blueprints.Base;
+using NAudio.Wave;
+using Newtonsoft.Json;
 using SpeechMod.Unity;
 using System;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SpeechMod.Voice;
 
 public class WindowsSpeech : ISpeech
 {
+    private static FuzzyResolver s_FuzzyResolver;
+    private static string s_ModDirectory;
     private static string SpeakBegin => "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"http://www.w3.org/2001/mstts\">";
     private static string SpeakEnd => "</speak>";
 
@@ -84,9 +90,130 @@ public class WindowsSpeech : ISpeech
         return text;
     }
 
-    private static void SpeakInternal(string text, float delay = 0f)
+    
+
+    private static IWavePlayer _output;
+    private static WaveStream _waveStream;
+
+    public static void PlayOgg(string path)
     {
-        text = SpeakBegin + text + SpeakEnd;
+        StopVorbis();
+
+        // VorbisWaveReader from NAudio.Vorbis
+        var vorbisStream = new NAudio.Vorbis.VorbisWaveReader(path);
+        _output = new WaveOutEvent();
+        _output.Init(vorbisStream);
+        _output.Play();
+
+        _waveStream = vorbisStream;
+    }
+
+    public static void StopVorbis()
+    {
+        _output?.Stop();
+        _output?.Dispose();
+        _output = null;
+
+        _waveStream?.Dispose();
+        _waveStream = null;
+    }
+
+    public static void LoadPreprocessedDatabase()
+    {
+        UnityEngine.Debug.Log("Loading preprocessed database...");
+        try
+        {
+            s_ModDirectory = Path.Combine(Constants.LOCAL_LOW_PATH!,
+                "Owlcat Games",
+                "Warhammer 40000 Rogue Trader",
+                "UnityModManager",
+                "W40KRTSpeechMod");
+
+            var dbFile = Path.Combine(s_ModDirectory, "enGB-preprocessed.json");
+
+            if (!File.Exists(dbFile))
+            {
+                UnityEngine.Debug.LogWarning($"Preprocessed database not found at: {dbFile}");
+                return;
+            }
+
+            var json = File.ReadAllText(dbFile, Encoding.UTF8);
+            var db = JsonConvert.DeserializeObject<PrecompiledDb>(json);
+
+            if (db != null)
+            {
+                s_FuzzyResolver = new FuzzyResolver(db);
+                UnityEngine.Debug.Log($"Loaded {db.entries.Count} entries from preprocessed database.");
+            }
+        }
+        catch (Exception ex)
+        {
+            UnityEngine.Debug.LogException(ex);
+            UnityEngine.Debug.LogWarning("Failed to load preprocessed database!");
+        }
+    }
+
+    private void SpeakInternal(string origText, float delay = 0f)
+    {
+
+        // Fall back to TTS
+        var mcName = Game.Instance.Player.MainCharacterEntity?.CharacterName;
+        //UnityEngine.Debug.Log("My name is: " + mcName);
+        var text = origText;
+        if (mcName != null)
+        {
+            text = origText.Replace(mcName, "{name}");
+        }
+
+        UnityEngine.Debug.Log("SpeakInternal2!");
+        // Try to play prerecorded audio if available
+        if (s_FuzzyResolver != null)
+        {
+            try
+            {
+                // Strip XML tags and normalize text for querying
+                var cleanText = new Regex("<[^>]+>").Replace(text, "");
+                cleanText = cleanText.Trim();
+
+                if (!string.IsNullOrEmpty(cleanText))
+                {
+                    // Resolve GUID from text
+                    var result = s_FuzzyResolver.Query(cleanText, topK: 1, refine: true);
+                    var guid = result.Best.Id;
+
+                    if (!string.IsNullOrEmpty(guid) && guid.Length >= 2)
+                    {
+                        // Build path: mod_dir/tts/{first two letters}/{GUID}.ogg
+                        var prefix = guid.Substring(0, 2);
+                        var audioPath = Path.Combine(s_ModDirectory, "tts_new", prefix, $"{guid}.ogg");
+                        if (!File.Exists(audioPath))
+                        {
+                            audioPath = Path.Combine(s_ModDirectory, "tts", prefix, $"{guid}.ogg");
+                        }
+
+                        if (File.Exists(audioPath))
+                        {
+                            UnityEngine.Debug.Log($"Playing prerecorded audio: {guid} (score: {result.Best.Score:0.000})");
+                            PlayOgg(audioPath);
+                            return; // Skip TTS if we played the audio
+                        }
+                        else
+                        {
+                            UnityEngine.Debug.Log($"Audio file not found: {audioPath}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UnityEngine.Debug.LogException(ex);
+                UnityEngine.Debug.LogWarning("Failed to resolve/play prerecorded audio, falling back to TTS");
+            }
+        } else {
+            UnityEngine.Debug.Log($"Fuzzy matcher is not initialized!");
+        }
+
+        text = SpeakBegin + origText + SpeakEnd;
         if (Main.Settings?.LogVoicedLines == true)
             UnityEngine.Debug.Log(text);
         WindowsVoiceUnity.Speak(text, Length(text), delay);
@@ -101,7 +228,7 @@ public class WindowsSpeech : ISpeech
     {
         if (string.IsNullOrEmpty(text))
         {
-            Main.Logger?.Warning("No text to speak!");
+            UnityEngine.Debug.LogWarning("No text to speak!");
             return;
         }
 
@@ -140,7 +267,7 @@ public class WindowsSpeech : ISpeech
     {
         if (string.IsNullOrEmpty(text))
         {
-            Main.Logger?.Warning("No text to speak!");
+            UnityEngine.Debug.LogWarning("No text to speak!");
             return;
         }
 
@@ -159,7 +286,7 @@ public class WindowsSpeech : ISpeech
     {
         if (string.IsNullOrEmpty(text))
         {
-            Main.Logger?.Warning("No text to speak!");
+            UnityEngine.Debug.LogWarning("No text to speak!");
             return;
         }
 
@@ -191,7 +318,7 @@ public class WindowsSpeech : ISpeech
     {
         if (string.IsNullOrEmpty(text))
         {
-            Main.Logger?.Warning("No text to speak!");
+            UnityEngine.Debug.LogWarning("No text to speak!");
             return;
         }
 
@@ -202,6 +329,7 @@ public class WindowsSpeech : ISpeech
 
     public void Stop()
     {
+        StopVorbis();
         WindowsVoiceUnity.Stop();
     }
 
