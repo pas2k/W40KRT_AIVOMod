@@ -1,6 +1,6 @@
 # Warhammer 40K: Rogue Trader - AI Voiceover Mod
 By [pas2k](https://github.com/pas2k)
-Based on (SpeechMod)[https://github.com/Osmodium/W40KRogueTraderSpeechMod] by [Osmodium](https://github.com/Osmodium)
+Based on [SpeechMod](https://github.com/Osmodium/W40KRogueTraderSpeechMod) by [Osmodium](https://github.com/Osmodium)
 
 
 ## Acknowledgements
