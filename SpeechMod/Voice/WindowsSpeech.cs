@@ -2,14 +2,14 @@
 using Kingmaker.Blueprints.Base;
 using NAudio.Wave;
 using Newtonsoft.Json;
-using SpeechMod.Unity;
+using AiVoiceoverMod.Unity;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace SpeechMod.Voice;
+namespace AiVoiceoverMod.Voice;
 
 public class WindowsSpeech : ISpeech
 {
@@ -127,7 +127,7 @@ public class WindowsSpeech : ISpeech
                 "Owlcat Games",
                 "Warhammer 40000 Rogue Trader",
                 "UnityModManager",
-                "W40KRTSpeechMod");
+                Constants.MOD_NAME);
 
             var dbFile = Path.Combine(s_ModDirectory, "enGB-preprocessed.json");
 
@@ -155,17 +155,15 @@ public class WindowsSpeech : ISpeech
 
     private void SpeakInternal(string origText, float delay = 0f)
     {
-
-        // Fall back to TTS
         var mcName = Game.Instance.Player.MainCharacterEntity?.CharacterName;
-        //UnityEngine.Debug.Log("My name is: " + mcName);
         var text = origText;
         if (mcName != null)
         {
             text = origText.Replace(mcName, "{name}");
         }
 
-        UnityEngine.Debug.Log("SpeakInternal2!");
+        string localizationKey = null;
+
         // Try to play prerecorded audio if available
         if (s_FuzzyResolver != null)
         {
@@ -179,29 +177,8 @@ public class WindowsSpeech : ISpeech
                 {
                     // Resolve GUID from text
                     var result = s_FuzzyResolver.Query(cleanText, topK: 1, refine: true);
-                    var guid = result.Best.Id;
-
-                    if (!string.IsNullOrEmpty(guid) && guid.Length >= 2)
-                    {
-                        // Build path: mod_dir/tts/{first two letters}/{GUID}.ogg
-                        var prefix = guid.Substring(0, 2);
-                        var audioPath = Path.Combine(s_ModDirectory, "tts_new", prefix, $"{guid}.ogg");
-                        if (!File.Exists(audioPath))
-                        {
-                            audioPath = Path.Combine(s_ModDirectory, "tts", prefix, $"{guid}.ogg");
-                        }
-
-                        if (File.Exists(audioPath))
-                        {
-                            UnityEngine.Debug.Log($"Playing prerecorded audio: {guid} (score: {result.Best.Score:0.000})");
-                            PlayOgg(audioPath);
-                            return; // Skip TTS if we played the audio
-                        }
-                        else
-                        {
-                            UnityEngine.Debug.Log($"Audio file not found: {audioPath}");
-                        }
-                    }
+                    UnityEngine.Debug.Log($"Playing prerecorded audio: {localizationKey} (score: {result.Best.Score:0.000})");
+                    localizationKey = result.Best.Id;
                 }
             }
             catch (Exception ex)
@@ -213,10 +190,7 @@ public class WindowsSpeech : ISpeech
             UnityEngine.Debug.Log($"Fuzzy matcher is not initialized!");
         }
 
-        text = SpeakBegin + origText + SpeakEnd;
-        if (Main.Settings?.LogVoicedLines == true)
-            UnityEngine.Debug.Log(text);
-        WindowsVoiceUnity.Speak(text, Length(text), delay);
+        SpeakByKey(localizationKey, origText, delay);
     }
 
     public bool IsSpeaking()
@@ -341,5 +315,30 @@ public class WindowsSpeech : ISpeech
     public string GetStatusMessage()
     {
         return WindowsVoiceUnity.GetStatusMessage();
+    }
+
+    public void SpeakByKey(string localizationKey, string fallbackText, float delay = 0)
+    {
+        if (!string.IsNullOrEmpty(localizationKey) && localizationKey.Length >= 2)
+        {
+            // Build path: mod_dir/tts/{first two letters}/{GUID}.ogg
+            var prefix = localizationKey.Substring(0, 2);
+            var audioPath = Path.Combine(s_ModDirectory, "tts", prefix, $"{localizationKey}.ogg");
+            
+            if (File.Exists(audioPath))
+            {
+                PlayOgg(audioPath);
+                return; // Skip TTS if we played the audio
+            }
+            else
+            {
+                UnityEngine.Debug.Log($"Audio file not found: {audioPath}");
+            }
+        }
+
+        var text = SpeakBegin + fallbackText + SpeakEnd;
+        if (Main.Settings?.LogVoicedLines == true)
+            UnityEngine.Debug.Log(text);
+        WindowsVoiceUnity.Speak(text, Length(text), delay);
     }
 }

@@ -1,12 +1,12 @@
 ﻿using HarmonyLib;
 using Kingmaker.UI.MVVM.View.CharGen.PC.Phases.Career;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 using UnityEngine.UI;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch(typeof(CharGenCareerPhaseDetailedPCView), nameof(CharGenCareerPhaseDetailedPCView.BindViewImplementation))]
 public class CharGenCareerPhaseDetailedPCView_Patch

@@ -2,12 +2,12 @@
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.Journal;
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.Journal.Base;
 using Kingmaker.UI.TMPExtention.ScrambledTextMeshPro;
-using SpeechMod.Unity;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity;
+using AiVoiceoverMod.Unity.Extensions;
 using System.Linq;
 using UnityEngine;
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public static class JournalQuest_Patch

@@ -2,7 +2,7 @@
 using Kingmaker.Code.UI.MVVM.VM.Tooltip.Templates;
 using Kingmaker.Code.UI.MVVM.VM.Tooltip.Utils;
 using Owlcat.Runtime.UI.Controls.Button;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -10,7 +10,7 @@ using UnityEngine.Events;
 using GameObject = UnityEngine.GameObject;
 using Object = UnityEngine.Object;
 
-namespace SpeechMod.Unity;
+namespace AiVoiceoverMod.Unity;
 
 public static class ButtonFactory
 {

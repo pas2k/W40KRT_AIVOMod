@@ -1,4 +1,4 @@
-﻿namespace SpeechMod.Voice;
+﻿namespace AiVoiceoverMod.Voice;
 
 public enum VoiceType
 {

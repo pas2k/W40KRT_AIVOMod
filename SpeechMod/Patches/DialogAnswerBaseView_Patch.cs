@@ -3,16 +3,16 @@ using Kingmaker;
 using Kingmaker.Blueprints.Base;
 using Kingmaker.Code.UI.MVVM.View.Dialog.Dialog;
 using Owlcat.Runtime.UI.Controls.Button;
-using SpeechMod.Unity;
-using SpeechMod.Unity.Extensions;
-using SpeechMod.Voice;
+using AiVoiceoverMod.Unity;
+using AiVoiceoverMod.Unity.Extensions;
+using AiVoiceoverMod.Voice;
 using System.Collections;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using Image = UnityEngine.UI.Image;
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public class DialogAnswerBaseView_Patch

@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.Encyclopedia.Base;
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.Encyclopedia.Blocks;
-using SpeechMod.Unity;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity;
+using AiVoiceoverMod.Unity.Extensions;
 using UnityEngine;
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public static class Encyclopedia_Patch

@@ -1,12 +1,12 @@
 ﻿using HarmonyLib;
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.CharacterInfo.Sections.Alignment.AlignmentHistory;
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.CharacterInfo.Sections.Stories;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public static class CharInfoStoriesView_Patch

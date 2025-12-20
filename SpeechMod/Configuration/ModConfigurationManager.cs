@@ -3,15 +3,15 @@ using Kingmaker;
 using Kingmaker.Settings;
 using Kingmaker.UI.InputSystems;
 using Kingmaker.UI.Models.SettingsUI;
-using SpeechMod.Configuration.Settings;
-using SpeechMod.Configuration.UI;
-using SpeechMod.Localization;
+using AiVoiceoverMod.Configuration.Settings;
+using AiVoiceoverMod.Configuration.UI;
+using AiVoiceoverMod.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using static UnityModManagerNet.UnityModManager;
 
-namespace SpeechMod.Configuration;
+namespace AiVoiceoverMod.Configuration;
 
 public class ModConfigurationManager
 {

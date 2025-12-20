@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using Kingmaker.Code.UI.MVVM.View.TermOfUse;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch(typeof(TermsOfUsePCView), nameof(TermsOfUsePCView.BindViewImplementation))]
 public class TermsOfUsePCView_Patch

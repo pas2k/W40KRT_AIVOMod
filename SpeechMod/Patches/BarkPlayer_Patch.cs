@@ -6,11 +6,11 @@ using Kingmaker.EntitySystem.Entities;
 using Kingmaker.EntitySystem.Entities.Base;
 using Kingmaker.GameModes;
 using Kingmaker.Mechanics.Entities;
-using SpeechMod.Voice;
+using AiVoiceoverMod.Voice;
 using System;
 using UnityEngine;
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public class BarkPlayer_Patch

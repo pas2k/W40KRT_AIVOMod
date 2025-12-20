@@ -7,7 +7,7 @@ using Kingmaker.EntitySystem.Entities;
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch(typeof(DialogController), nameof(DialogController.SelectAnswer), typeof(BlueprintAnswer), typeof(BaseUnitEntity))]
 public class DialogController_Patch

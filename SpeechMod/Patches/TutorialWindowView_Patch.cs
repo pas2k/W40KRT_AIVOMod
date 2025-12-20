@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using Kingmaker.UI.MVVM.View.Tutorial.PC;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch(typeof(TutorialHintWindowPCView), nameof(TutorialHintWindowPCView.SetContent))]
 public class TutorialWindowView_Patch_Small

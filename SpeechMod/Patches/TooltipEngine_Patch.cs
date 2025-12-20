@@ -4,14 +4,14 @@ using Kingmaker.Code.UI.MVVM.View.Tooltip.Bricks;
 using Kingmaker.Code.UI.MVVM.VM.InfoWindow;
 using Owlcat.Runtime.UI.Controls.Button;
 using Owlcat.Runtime.UI.Tooltips;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public static class Tooltip_Patch

@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using Kingmaker.Code.UI.MVVM.View.LoadingScreen;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public static class LoadingScreenBaseView_Patch

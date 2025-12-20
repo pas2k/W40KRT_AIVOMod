@@ -4,7 +4,7 @@ using TMPro;
 using UniRx;
 using UnityEngine;
 
-namespace SpeechMod.Unity.Extensions;
+namespace AiVoiceoverMod.Unity.Extensions;
 
 public static class Hooks
 {

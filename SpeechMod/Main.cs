@@ -1,9 +1,9 @@
 ﻿using HarmonyLib;
-using SpeechMod.Configuration;
-using SpeechMod.KeyBinds;
-using SpeechMod.Unity;
-using SpeechMod.Unity.Extensions;
-using SpeechMod.Voice;
+using AiVoiceoverMod.Configuration;
+using AiVoiceoverMod.KeyBinds;
+using AiVoiceoverMod.Unity;
+using AiVoiceoverMod.Unity.Extensions;
+using AiVoiceoverMod.Voice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using TMPro;
 using UnityEngine;
 using UnityModManagerNet;
 
-namespace SpeechMod;
+namespace AiVoiceoverMod;
 
 #if DEBUG
 [EnableReloading]

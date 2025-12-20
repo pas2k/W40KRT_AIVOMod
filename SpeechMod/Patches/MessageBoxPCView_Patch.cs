@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using Kingmaker.Code.UI.MVVM.View.MessageBox.PC;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch(typeof(MessageBoxPCView), nameof(MessageBoxPCView.BindViewImplementation))]
 public class MessageBoxPCView_Patch

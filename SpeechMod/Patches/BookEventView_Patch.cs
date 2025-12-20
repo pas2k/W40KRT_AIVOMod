@@ -1,12 +1,12 @@
 ﻿using HarmonyLib;
 using Kingmaker.Code.UI.MVVM.View.Dialog.BookEvent;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using Kingmaker;
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch(typeof(BookEventCueView), nameof(BookEventCueView.SetText))]
 public static class BookEventView_Patch

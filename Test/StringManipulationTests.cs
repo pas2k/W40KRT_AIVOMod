@@ -1,6 +1,6 @@
 using NSubstitute;
-using SpeechMod;
-using SpeechMod.Voice;
+using AiVoiceoverMod;
+using AiVoiceoverMod.Voice;
 using Xunit;
 
 namespace Test;

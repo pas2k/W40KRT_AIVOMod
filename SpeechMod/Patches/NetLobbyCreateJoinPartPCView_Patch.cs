@@ -1,9 +1,9 @@
 ﻿using HarmonyLib;
 using Kingmaker.UI.MVVM.View.NetLobby.PC;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 using UnityEngine;
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public static class NetLobbyCreateJoinPartPCView_Patch

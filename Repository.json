@@ -1,8 +1,8 @@
 ﻿{
   "Releases": [
     {
-      "Id": "SpeechMod",
-      "Version": "0.9.8"
+      "Id": "AiVoiceoverMod",
+      "Version": "0.1.0"
     }
   ]
 }

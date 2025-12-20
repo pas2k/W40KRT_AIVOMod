@@ -1,6 +1,6 @@
 ﻿using UnityModManagerNet;
 
-namespace SpeechMod;
+namespace AiVoiceoverMod;
 
 public class Settings : UnityModManager.ModSettings
 {
@@ -31,7 +31,7 @@ public class Settings : UnityModManager.ModSettings
     public int ProtagonistVolume = 100;
     public int ProtagonistPitch = 0;
 
-    public bool AutoPlay = false;
+    public bool AutoPlay = true;
     public bool AutoPlayIgnoreVoice = false;
 
     public bool ColorOnHover = false;
@@ -40,7 +40,7 @@ public class Settings : UnityModManager.ModSettings
     public float HoverColorB = 0f;
     public float HoverColorA = 1f;
 
-    public bool FontStyleOnHover = true;
+    public bool FontStyleOnHover = false;
     public bool[] FontStyles = [false, false, false, true, false, false, false, false, false, false, false];
 
     public bool InterruptPlaybackOnPlay = true;
@@ -49,7 +49,7 @@ public class Settings : UnityModManager.ModSettings
     public bool PlaybackBarksInVicinity = false;
     public bool ShowNotificationOnPlaybackStop = true;
 
-    public bool ShowPlaybackOfDialogAnswers = true;
+    public bool ShowPlaybackOfDialogAnswers = false;
     public bool SayDialogAnswerNumber = false;
     public bool DialogAnswerColorOnHover = true;
     public float DialogAnswerHoverColorR = 0.15f;

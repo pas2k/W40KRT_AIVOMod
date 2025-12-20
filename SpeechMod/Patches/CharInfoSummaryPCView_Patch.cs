@@ -2,12 +2,12 @@
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.CharacterInfo.Sections.BuffsAndConditions;
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.CharacterInfo.Sections.FactionsReputation;
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.CharacterInfo.Sections.Summary;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public class CharInfoSummaryPCView_Patch

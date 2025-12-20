@@ -2,11 +2,11 @@
 using Kingmaker.Localization.Enums;
 using Kingmaker.Localization.Shared;
 using Newtonsoft.Json;
-using SpeechMod.Configuration;
+using AiVoiceoverMod.Configuration;
 using System.Collections.Generic;
 using System.IO;
 
-namespace SpeechMod.Localization;
+namespace AiVoiceoverMod.Localization;
 
 internal class ModLocalizationManager
 {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace SpeechMod.Voice;
+namespace AiVoiceoverMod.Voice;
 
 public static class PhoneticDictionary
 {
@@ -47,7 +47,7 @@ public static class PhoneticDictionary
                 "Owlcat Games",
                 "Warhammer 40000 Rogue Trader",
                 "UnityModManager",
-                "W40KSpeechMod",
+                Constants.MOD_NAME,
                 "PhoneticDictionary.json");
             var json = File.ReadAllText(file, Encoding.UTF8);
             s_PhoneticDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);

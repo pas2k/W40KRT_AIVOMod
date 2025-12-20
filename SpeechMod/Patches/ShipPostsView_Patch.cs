@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using Kingmaker.UI.MVVM.View.ShipCustomization.ShipPosts;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 [HarmonyPatch(typeof(PostsBaseView), nameof(PostsBaseView.BindViewImplementation))]
 public class ShipPostsView_Patch
 {

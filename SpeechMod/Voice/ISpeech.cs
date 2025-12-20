@@ -1,4 +1,4 @@
-﻿namespace SpeechMod.Voice;
+﻿namespace AiVoiceoverMod.Voice;
 
 public interface ISpeech
 {
@@ -7,6 +7,7 @@ public interface ISpeech
     bool IsSpeaking();
     void SpeakPreview(string text, VoiceType voiceType);
     void SpeakDialog(string text, float delay = 0f);
+    void SpeakByKey(string key, string fallbackText, float delay = 0f);
     void SpeakAs(string text, VoiceType type, float delay = 0f);
     void Speak(string text, float delay = 0f);
     void Stop();

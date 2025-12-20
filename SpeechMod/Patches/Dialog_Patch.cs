@@ -6,7 +6,7 @@ using Kingmaker.Localization;
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch(typeof(DialogVM), nameof(DialogVM.HandleOnCueShow))]
 public static class Dialog_Patch
@@ -41,7 +41,7 @@ public static class Dialog_Patch
             Main.Speech.Stop();
             return;
         }
-
-        Main.Speech?.SpeakDialog(Game.Instance?.DialogController?.CurrentCue?.DisplayText, 0.5f);
+        Main.Speech?.SpeakByKey(key, Game.Instance?.DialogController?.CurrentCue?.DisplayText, 0.5f);
+        //Main.Speech?.SpeakDialog(Game.Instance?.DialogController?.CurrentCue?.DisplayText, 0.5f);
     }
 }

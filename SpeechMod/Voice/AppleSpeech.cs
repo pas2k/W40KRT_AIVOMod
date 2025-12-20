@@ -1,9 +1,9 @@
-﻿using SpeechMod.Unity;
+﻿using AiVoiceoverMod.Unity;
 using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace SpeechMod.Voice;
+namespace AiVoiceoverMod.Voice;
 
 public class AppleSpeech : ISpeech
 {
@@ -106,4 +106,9 @@ public class AppleSpeech : ISpeech
 	{
 		return "AppleSpeech ready!";
 	}
+
+    public void SpeakByKey(string key, string fallbackText, float delay = 0)
+    {
+        throw new NotImplementedException();
+    }
 }

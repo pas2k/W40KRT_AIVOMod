@@ -2,12 +2,12 @@
 using Kingmaker;
 using Kingmaker.Code.UI.MVVM.View.ServiceWindows.CharacterInfo.Sections.NameAndPortrait;
 using Kingmaker.GameModes;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch(typeof(ShipNameAndPortraitPCView), nameof(ShipNameAndPortraitPCView.BindViewImplementation))]
 public static class ShipNameAndPortraitPCView_Patch

@@ -4,7 +4,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SpeechMod.Unity.Extensions;
+namespace AiVoiceoverMod.Unity.Extensions;
 
 public static class UIHelper
 {

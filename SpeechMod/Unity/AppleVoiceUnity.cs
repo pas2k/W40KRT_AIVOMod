@@ -1,12 +1,12 @@
 ﻿using Kingmaker;
 using Kingmaker.Blueprints.Base;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace SpeechMod.Unity;
+namespace AiVoiceoverMod.Unity;
 
 public class AppleVoiceUnity : MonoBehaviour
 {

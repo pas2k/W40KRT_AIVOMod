@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SpeechMod.Voice;
+namespace AiVoiceoverMod.Voice;
 
 // ----------------------------
 // Precompiled format:

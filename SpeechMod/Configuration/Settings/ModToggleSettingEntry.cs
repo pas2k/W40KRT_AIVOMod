@@ -1,11 +1,11 @@
 ﻿using Kingmaker.Settings;
 using Kingmaker.Settings.Entities;
 using Kingmaker.UI.Models.SettingsUI.SettingAssets;
-using SpeechMod.Localization;
+using AiVoiceoverMod.Localization;
 using System;
 using UnityEngine;
 
-namespace SpeechMod.Configuration.Settings;
+namespace AiVoiceoverMod.Configuration.Settings;
 
 public abstract class ModToggleSettingEntry : ModSettingEntry
 {

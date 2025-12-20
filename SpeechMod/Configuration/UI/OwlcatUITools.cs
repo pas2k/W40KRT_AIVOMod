@@ -1,9 +1,9 @@
 ﻿using Kingmaker.UI.Models.SettingsUI;
 using Kingmaker.UI.Models.SettingsUI.SettingAssets;
-using SpeechMod.Localization;
+using AiVoiceoverMod.Localization;
 using UnityEngine;
 
-namespace SpeechMod.Configuration.UI;
+namespace AiVoiceoverMod.Configuration.UI;
 
 public static class OwlcatUITools
 {

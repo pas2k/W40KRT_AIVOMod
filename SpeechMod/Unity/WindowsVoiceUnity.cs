@@ -1,9 +1,9 @@
-﻿using SpeechMod.Unity.Extensions;
+﻿using AiVoiceoverMod.Unity.Extensions;
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace SpeechMod.Unity;
+namespace AiVoiceoverMod.Unity;
 
 public class WindowsVoiceUnity : MonoBehaviour
 {

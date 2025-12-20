@@ -1,8 +1,8 @@
-﻿using SpeechMod.Voice;
+﻿using AiVoiceoverMod.Voice;
 using System.Linq;
 using UnityEngine;
 
-namespace SpeechMod.Unity;
+namespace AiVoiceoverMod.Unity;
 
 public static class MenuGUI
 {
@@ -24,38 +24,6 @@ public static class MenuGUI
 
         GUILayout.EndVertical();
 #endif
-        AddHeader("Playback voices");
-
-        AddVoiceSelector("Narrator Voice - See nationality below", ref Main.Settings.NarratorVoice, ref m_NarratorPreviewText, ref Main.Settings.NarratorRate, ref Main.Settings.NarratorVolume, ref Main.Settings.NarratorPitch, VoiceType.Narrator);
-
-        GUILayout.BeginVertical("", GUI.skin.box);
-
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Use specific voice for protagonist", GUILayout.ExpandWidth(false));
-        Main.Settings.UseProtagonistSpecificVoice = GUILayout.Toggle(Main.Settings.UseProtagonistSpecificVoice, "Enabled");
-        GUILayout.EndHorizontal();
-
-        GUILayout.EndVertical();
-
-        if (Main.Settings.UseProtagonistSpecificVoice)
-        {
-            AddVoiceSelector("Protagonist - See nationality below", ref Main.Settings.ProtagonistVoice, ref m_ProtagonistPreviewText, ref Main.Settings.ProtagonistRate, ref Main.Settings.ProtagonistVolume, ref Main.Settings.ProtagonistPitch, VoiceType.Protagonist);
-        }
-
-        GUILayout.BeginVertical("", GUI.skin.box);
-
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Use gender specific voices", GUILayout.ExpandWidth(false));
-        Main.Settings.UseGenderSpecificVoices = GUILayout.Toggle(Main.Settings.UseGenderSpecificVoices, "Enabled");
-        GUILayout.EndHorizontal();
-
-        GUILayout.EndVertical();
-
-        if (Main.Settings.UseGenderSpecificVoices)
-        {
-            AddVoiceSelector("Female Voice - See nationality below", ref Main.Settings.FemaleVoice, ref m_FemalePreviewText, ref Main.Settings.FemaleRate, ref Main.Settings.FemaleVolume, ref Main.Settings.FemalePitch, VoiceType.Female);
-            AddVoiceSelector("Male Voice - See nationality below", ref Main.Settings.MaleVoice, ref m_MalePreviewText, ref Main.Settings.MaleRate, ref Main.Settings.MaleVolume, ref Main.Settings.MalePitch, VoiceType.Male);
-        }
 
         AddHeader("Playback Settings");
 
@@ -176,6 +144,42 @@ public static class MenuGUI
         }
 
         GUILayout.EndVertical();
+
+
+        AddHeader("OS TTS voices");
+
+        AddVoiceSelector("Narrator Voice - See nationality below", ref Main.Settings.NarratorVoice, ref m_NarratorPreviewText, ref Main.Settings.NarratorRate, ref Main.Settings.NarratorVolume, ref Main.Settings.NarratorPitch, VoiceType.Narrator);
+
+        GUILayout.BeginVertical("", GUI.skin.box);
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Use specific voice for protagonist", GUILayout.ExpandWidth(false));
+        Main.Settings.UseProtagonistSpecificVoice = GUILayout.Toggle(Main.Settings.UseProtagonistSpecificVoice, "Enabled");
+        GUILayout.EndHorizontal();
+
+        GUILayout.EndVertical();
+
+        if (Main.Settings.UseProtagonistSpecificVoice)
+        {
+            AddVoiceSelector("Protagonist - See nationality below", ref Main.Settings.ProtagonistVoice, ref m_ProtagonistPreviewText, ref Main.Settings.ProtagonistRate, ref Main.Settings.ProtagonistVolume, ref Main.Settings.ProtagonistPitch, VoiceType.Protagonist);
+        }
+
+        GUILayout.BeginVertical("", GUI.skin.box);
+
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Use gender specific voices", GUILayout.ExpandWidth(false));
+        Main.Settings.UseGenderSpecificVoices = GUILayout.Toggle(Main.Settings.UseGenderSpecificVoices, "Enabled");
+        GUILayout.EndHorizontal();
+
+        GUILayout.EndVertical();
+
+        if (Main.Settings.UseGenderSpecificVoices)
+        {
+            AddVoiceSelector("Female Voice - See nationality below", ref Main.Settings.FemaleVoice, ref m_FemalePreviewText, ref Main.Settings.FemaleRate, ref Main.Settings.FemaleVolume, ref Main.Settings.FemalePitch, VoiceType.Female);
+            AddVoiceSelector("Male Voice - See nationality below", ref Main.Settings.MaleVoice, ref m_MalePreviewText, ref Main.Settings.MaleRate, ref Main.Settings.MaleVolume, ref Main.Settings.MalePitch, VoiceType.Male);
+        }
+
+        
 
         GUILayout.BeginVertical("", GUI.skin.box);
 

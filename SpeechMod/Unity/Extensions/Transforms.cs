@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SpeechMod.Unity.Extensions;
+namespace AiVoiceoverMod.Unity.Extensions;
 
 public static class Transforms
 {

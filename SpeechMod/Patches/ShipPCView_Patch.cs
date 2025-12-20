@@ -2,11 +2,11 @@
 using Kingmaker.Code.UI.MVVM.View.Slots;
 using Kingmaker.Code.UI.MVVM.View.Space.PC;
 using Kingmaker.UI.MVVM.View.ShipCustomization;
-using SpeechMod.Unity;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity;
+using AiVoiceoverMod.Unity.Extensions;
 using UnityEngine;
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public class ShipPCView_Patch

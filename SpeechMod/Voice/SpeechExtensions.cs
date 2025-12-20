@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace SpeechMod.Voice;
+namespace AiVoiceoverMod.Voice;
 
 public static class SpeechExtensions
 {

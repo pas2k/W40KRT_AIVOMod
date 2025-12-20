@@ -3,11 +3,11 @@ using Kingmaker;
 using Kingmaker.Code.UI.MVVM.View.Dialog.Dialog;
 using Kingmaker.Code.UI.MVVM.View.Dialog.SurfaceDialog;
 using Kingmaker.GameModes;
-using SpeechMod.Unity;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity;
+using AiVoiceoverMod.Unity.Extensions;
 using UnityEngine;
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public static class DialogPCView_Patch

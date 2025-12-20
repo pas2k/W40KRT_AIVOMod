@@ -1,7 +1,7 @@
 ﻿using Kingmaker.UI.Models.SettingsUI.SettingAssets;
 using System;
 
-namespace SpeechMod.Configuration.Settings;
+namespace AiVoiceoverMod.Configuration.Settings;
 
 public abstract class ModSettingEntry
 {

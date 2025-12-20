@@ -1,4 +1,4 @@
-﻿namespace SpeechMod.Configuration.Settings;
+﻿namespace AiVoiceoverMod.Configuration.Settings;
 
 public enum SettingStatus
 {

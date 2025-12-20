@@ -3,15 +3,16 @@
 
     <PropertyGroup>
         <TargetFramework>net481</TargetFramework>
-        <AssemblyName>W40KRTSpeechMod</AssemblyName>
-        <Description>Warhammer 40K: Rogue Trader - SpeechMod</Description>
+        <AssemblyName>W40KRT_AIVOMod</AssemblyName>
+        <Description>Warhammer 40K: Rogue Trader - AIVO Mod</Description>
         <Version>0.9.8</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
-        <RootNamespace>SpeechMod</RootNamespace>
+        <RootNamespace>AiVoiceoverMod</RootNamespace>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RestoreAdditionalProjectSources>https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
         <RogueTraderData>$(LocalAppData)Low\Owlcat Games\Warhammer 40000 Rogue Trader</RogueTraderData>
+        <BaseOutputPath>C:\Users\Pas\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager\W40KRT_AIVOMod</BaseOutputPath>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="$(RogueTraderInstallDir)\WH40KRT_Data\Managed\0Harmony.dll*" Private="false" />
@@ -29,10 +30,17 @@
     <ItemGroup>
         <None Include="Info.json" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
         <None Include="PhoneticDictionary.json" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
+        <None Include="enGB-preprocessed.json" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
+        <None Include="WindowsVoice.dll" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
+        <None Include="place_tts_sound_files_here.txt" CopyToOutputDirectory="PreserveNewest" Link="tts\%(Filename)%(Extension)" />
     </ItemGroup>
     <ItemGroup>
         <None Update="Localization\enGB.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="Properties\Settings.settings">
+          <Generator>SettingsSingleFileGenerator</Generator>
+          <LastGenOutput>Settings.Designer.cs</LastGenOutput>
         </None>
     </ItemGroup>
     <!--<Target Name="Deploy" AfterTargets="Build">
@@ -50,6 +58,24 @@
         <PackageReference Include="NAudio" Version="2.2.1" />
         <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
         <!--<PackageReference Include="PublishToWorkshop" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" Version="1.0.10" PrivateAssets="all" />-->
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Properties\Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Properties\Settings.Designer.cs">
+        <DesignTimeSharedInput>True</DesignTimeSharedInput>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Settings.settings</DependentUpon>
+      </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="Properties\Resources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
     <!--<Target Name="PublishToSteamWorkshop" AfterTargets="Publish">
         <RemoveDir Directories="$(OutputPath)\publish" />

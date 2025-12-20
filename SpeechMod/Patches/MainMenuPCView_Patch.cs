@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using Kingmaker.Code.UI.MVVM.View.MainMenu.PC;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch(typeof(MainMenuPCView), nameof(MainMenuPCView.BindViewImplementation))]
 public class MainMenuPCView_Patch

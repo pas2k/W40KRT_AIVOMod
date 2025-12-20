@@ -3,13 +3,13 @@ using Kingmaker;
 using Kingmaker.Code.UI.MVVM.View.Common.PC;
 using Kingmaker.Code.UI.MVVM.VM.WarningNotification;
 using Kingmaker.Localization;
-using SpeechMod.Configuration.Settings;
+using AiVoiceoverMod.Configuration.Settings;
 using System;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.KeyBinds;
+namespace AiVoiceoverMod.KeyBinds;
 
 public class PlaybackStop() : ModHotkeySettingEntry(KEY, TITLE, TOOLTIP, DEFAULT_VALUE)
 {

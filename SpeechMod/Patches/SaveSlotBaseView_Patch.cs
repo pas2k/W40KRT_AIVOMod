@@ -1,11 +1,11 @@
 ﻿using HarmonyLib;
 using Kingmaker.UI.MVVM.View.SaveLoad.Base;
-using SpeechMod.Unity.Extensions;
+using AiVoiceoverMod.Unity.Extensions;
 #if DEBUG
 using UnityEngine;
 #endif
 
-namespace SpeechMod.Patches;
+namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public class SaveSlotBaseView_Patch
