@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutionfiles", "Solutionfi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPreproc", "JsonPreproc\JsonPreproc.csproj", "{B02B8914-93C3-4308-BBEC-BCB46EC449FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckInstallation", "CheckInstallation\CheckInstallation.csproj", "{531F6AB8-77FD-460D-B414-32DF05979B6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B02B8914-93C3-4308-BBEC-BCB46EC449FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B02B8914-93C3-4308-BBEC-BCB46EC449FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B02B8914-93C3-4308-BBEC-BCB46EC449FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{531F6AB8-77FD-460D-B414-32DF05979B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{531F6AB8-77FD-460D-B414-32DF05979B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{531F6AB8-77FD-460D-B414-32DF05979B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{531F6AB8-77FD-460D-B414-32DF05979B6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
