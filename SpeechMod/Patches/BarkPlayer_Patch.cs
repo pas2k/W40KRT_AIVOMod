@@ -93,7 +93,6 @@ public static class BarkExtensions
 
         switch (Main.Settings.PlaybackBarkOnlyIfSilence)
         {
-            case true when Main.Speech?.IsSpeaking() == true:
             case true when Game.Instance.DialogController?.CurrentCue != null:
                 return false;
         }
@@ -111,7 +110,6 @@ public static class BarkExtensions
 
     public static void DoBark(Entity entity, string text, string voiceOver)
     {
-        Debug.Log($"DoBark");
         if (!string.IsNullOrWhiteSpace(voiceOver))
             return;
 
@@ -120,7 +118,6 @@ public static class BarkExtensions
 
     public static void SpeakBark(string text, Entity entity)
     {
-        Debug.Log("SpeakBark " + text);
         GameObject obj = entity.View?.GO;
         if (obj == null)
         {
@@ -130,42 +127,6 @@ public static class BarkExtensions
         {
             FuzzyResolver.ResolveAndPlay(text, "Bark", obj);
         }
-
-        //SoundEventsManager.PostEvent("20", entity);
-        if (entity is not LightweightUnitEntity lightweightUnitEntity)
-        {
-            if (entity is AbstractUnitEntity unitEntity)
-            {
-                SpeakBark(text, unitEntity.Gender);
-            }
-            else
-            {
-                SpeakBark(text);
-            }
-        }
-        else
-        {
-            SpeakBark(text, lightweightUnitEntity.Gender);
-        }
     }
 
-    public static void SpeakBark(string text, Gender? gender = null)
-    {
-#if DEBUG
-        Debug.LogFormat("SpeakBark as {0}", gender.HasValue ? gender : "Narrator");
-#endif
-
-        switch (gender)
-        {
-            case Gender.Male:
-                Main.Speech?.SpeakAs(text, VoiceType.Male);
-                break;
-            case Gender.Female:
-                Main.Speech?.SpeakAs(text, VoiceType.Female);
-                break;
-            default:
-                Main.Speech?.SpeakAs(text, VoiceType.Narrator);
-                break;
-        }
-    }
 }

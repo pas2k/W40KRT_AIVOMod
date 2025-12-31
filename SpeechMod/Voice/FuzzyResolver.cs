@@ -1,3 +1,4 @@
+using Kingmaker;
 using Kingmaker.Sound.Base;
 using Newtonsoft.Json;
 using System;
@@ -5,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace AiVoiceoverMod.Voice;
@@ -52,7 +54,7 @@ public sealed class MinHasher
 
         for (int i = 0; i + 3 <= s.Length; i++)
         {
-            uint h = Fnv1a32(s.AsSpan(i, 3));
+            uint h = Fnv1a32(s, i, 3);
             for (int k = 0; k < _seeds.Length; k++)
             {
                 uint mixed = Mix32(h ^ _seeds[k]);
@@ -70,16 +72,17 @@ public sealed class MinHasher
         return len == 0 ? 1f : (float)eq / len;
     }
 
-    private static uint Fnv1a32(ReadOnlySpan<char> span)
+    private static uint Fnv1a32(string s, int start, int length)
     {
         const uint FNV_OFFSET = 2166136261;
         const uint FNV_PRIME = 16777619;
         uint hash = FNV_OFFSET;
-        for (int i = 0; i < span.Length; i++)
+        int end = start + length;
+        for (int i = start; i < end; i++)
         {
             unchecked
             {
-                ushort u = span[i];
+                ushort u = s[i];
                 byte b0 = (byte)(u & 0xFF);
                 byte b1 = (byte)(u >> 8);
                 hash ^= b0; hash *= FNV_PRIME;
@@ -101,9 +104,6 @@ public sealed class MinHasher
     }
 }
 
-// ----------------------------
-// Exact char 3-gram Jaccard
-// ----------------------------
 public static class NGram
 {
     public static float Jaccard(string a, string b)
@@ -112,7 +112,6 @@ public static class NGram
         var B = HashSetPool.Shared.Rent();
         Fill3GramHashes(a, A);
         Fill3GramHashes(b, B);
-
         int inter = 0;
         if (A.Count <= B.Count)
         {
@@ -132,19 +131,20 @@ public static class NGram
         dest.Clear();
         if (string.IsNullOrEmpty(s)) return;
         for (int i = 0; i + 3 <= s.Length; i++)
-            dest.Add(Fnv1a32(s.AsSpan(i, 3)));
+            dest.Add(Fnv1a32(s, i, 3));
     }
 
-    private static uint Fnv1a32(ReadOnlySpan<char> span)
+    private static uint Fnv1a32(string s, int start, int length)
     {
         const uint FNV_OFFSET = 2166136261;
         const uint FNV_PRIME = 16777619;
         uint hash = FNV_OFFSET;
-        for (int i = 0; i < span.Length; i++)
+        int end = start + length;
+        for (int i = start; i < end; i++)
         {
             unchecked
             {
-                ushort u = span[i];
+                ushort u = s[i];
                 byte b0 = (byte)(u & 0xFF);
                 byte b1 = (byte)(u >> 8);
                 hash ^= b0; hash *= FNV_PRIME;
@@ -156,12 +156,13 @@ public static class NGram
 
     private sealed class HashSetPool
     {
-        public static readonly HashSetPool Shared = new();
-        private readonly Stack<HashSet<uint>> _pool = new();
-        public HashSet<uint> Rent() => _pool.Count > 0 ? _pool.Pop() : new HashSet<uint>();
+        public static readonly HashSetPool Shared = new HashSetPool();
+        private readonly Stack<HashSet<uint>> _pool = new Stack<HashSet<uint>>();
+        public HashSet<uint> Rent() { return _pool.Count > 0 ? _pool.Pop() : new HashSet<uint>(); }
         public void Return(HashSet<uint> set) { set.Clear(); _pool.Push(set); }
     }
 }
+
 
 // ----------------------------
 // Resolver (returns GUID, text, scores)
@@ -173,8 +174,20 @@ public sealed class FuzzyResolver
 
     public static bool ResolveAndPlay(string text, string kind, GameObject obj)
     {
-        ResolveResult res = Singleton.Query(text);
+        var mcName = Game.Instance.Player.MainCharacterEntity?.CharacterName;
+        if (mcName != null)
+        {
+            // A bit hacky, but improves matching performance a lot!
+            text = text.Replace(mcName, "{name}");
+        }
+        // Strip XML tags and normalize text for querying
+        var cleanText = new Regex("<[^>]+>").Replace(text, "");
+        cleanText = cleanText.Trim();
+
+        ResolveResult res = Singleton.Query(cleanText);
+#if DEBUG
         Debug.Log($"{kind} (FUZZY): {res.Best.Id}");
+#endif
         SoundEventsManager.PostEvent("ev_" + res.Best.Id, obj);
         return false;
     }

@@ -53,16 +53,6 @@ public class PlaybackStop() : ModHotkeySettingEntry(KEY, TITLE, TOOLTIP, DEFAULT
         private static void StopPlayback(CommonPCView instance)
         {
             SoundEventsManager.PostEvent("ev_stop_aivo", null);
-            if (!Main.Speech?.IsSpeaking() == true)
-                return;
-
-            if (instance.m_WarningsTextView != null)
-            {
-                if (Main.Settings!.ShowNotificationOnPlaybackStop)
-                    instance.m_WarningsTextView?.Show(_playbackStoppedText, WarningNotificationFormat.Common);
-            }
-
-            Main.Speech?.Stop();
         }
     }
 }

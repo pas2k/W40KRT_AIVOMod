@@ -73,10 +73,6 @@ public class ToggleBarks() : ModHotkeySettingEntry(KEY, TITLE, TOOLTIP, DEFAULT_
             Debug.Log(text);
 #endif
 
-            if (Main.Settings!.ShowNotificationOnPlaybackStop)
-            {
-                instance.m_WarningsTextView?.Show(text, WarningNotificationFormat.Common);
-            }
         }
     }
 }

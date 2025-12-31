@@ -56,28 +56,6 @@ public class SoundEventsManager_Patch
             }
         }
         return null;
-        //try {
-        //    var eventCallbackType = AccessTools.TypeByName("AkCallbackManager+EventCallback");
-        //    if (eventCallbackType != null)
-        //    {
-        //        UnityEngine.Debug.LogWarning($"Can't find eventCallbackType!");
-        //    }
-        //    return AccessTools.Method(type, "PostEventInternal", new Type[] { typeof(string), typeof(GameObject), typeof(int), eventCallbackType });
-        //}
-        //catch (Exception e) {
-        //    UnityEngine.Debug.LogError(e);
-        //    return null; 
-        //}
-
-        //foreach (var m in methods)
-        //{
-        //    UnityEngine.Debug.LogWarning($"Meth: {m}!");
-        //    if (m.Name == "PostEventInternal" && m.GetParameters().Length > 3)
-        //    {
-        //        return m;
-        //    }
-        //}
-        //return null;
 
     }
 
@@ -90,7 +68,7 @@ public class SoundEventsManager_Patch
         } catch (Exception e) {
             UnityEngine.Debug.LogWarning($"Err {akSoundEngine} {e}!");
         }
-        UnityEngine.Debug.LogWarning($"Playing2 {__args[0]} (id is {id})!");
+        //UnityEngine.Debug.LogWarning($"Playing2 {__args[0]} (id is {id})!");
 
         //VoiceOverPlayer.PlayVoiceOver
     }

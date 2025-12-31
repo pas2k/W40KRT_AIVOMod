@@ -6,6 +6,10 @@ using Kingmaker.GameModes;
 using AiVoiceoverMod.Unity;
 using AiVoiceoverMod.Unity.Extensions;
 using UnityEngine;
+using Kingmaker.Controllers.Dialog;
+using Kingmaker.Code.UI.MVVM.VM.Dialog.Dialog;
+using AiVoiceoverMod.Voice;
+using Kingmaker.Visual.Sound;
 
 namespace AiVoiceoverMod.Patches;
 
@@ -55,7 +59,8 @@ public static class DialogPCView_Patch
 
         var buttonGameObject = ButtonFactory.TryCreatePlayButton(parent, () =>
         {
-            Main.Speech?.SpeakDialog(Game.Instance?.DialogController?.CurrentCue?.DisplayText);
+            // TODO: cache GUID instead of resolving anew
+            FuzzyResolver.ResolveAndPlay(Game.Instance?.DialogController?.CurrentCue?.DisplayText, "DlgPlayBtn", SoundState.Get2DSoundObject());
         });
 
         if (buttonGameObject == null)

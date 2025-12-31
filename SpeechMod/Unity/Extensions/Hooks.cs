@@ -153,7 +153,6 @@ public static class Hooks
                 if (clickEvent?.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left)
                 {
                     FuzzyResolver.ResolveAndPlay(textMeshPro.text, "TextClick", SoundState.Get2DSoundObject());
-                    Main.Speech?.Speak(textMeshPro.text);
                 }
             }
         );

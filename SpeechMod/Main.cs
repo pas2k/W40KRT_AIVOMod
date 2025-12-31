@@ -12,6 +12,7 @@ using TMPro;
 using UnityEngine;
 using UnityModManagerNet;
 using System.IO;
+using Kingmaker.Sound;
 
 namespace AiVoiceoverMod;
 
@@ -25,20 +26,6 @@ public static class Main
     public static bool Enabled;
     public static string[] FontStyleNames = Enum.GetNames(typeof(FontStyles));
 
-    public static string NarratorVoice => VoicesDict?.ElementAtOrDefault(Settings.NarratorVoice).Key;
-    public static string FemaleVoice => VoicesDict?.ElementAtOrDefault(Settings.FemaleVoice).Key;
-    public static string MaleVoice => VoicesDict?.ElementAtOrDefault(Settings.MaleVoice).Key;
-    public static string ProtagonistVoice => VoicesDict?.ElementAtOrDefault(Settings.ProtagonistVoice).Key;
-
-    public static Dictionary<string, string> VoicesDict => Settings?.AvailableVoices?.Select(v =>
-    {
-        var splitV = v?.Split('#');
-        return splitV?.Length != 2
-            ? new { Key = v, Value = "Unknown" }
-            : new { Key = splitV[0], Value = splitV[1] };
-    }).ToDictionary(p => p.Key, p => p.Value);
-
-    public static ISpeech Speech;
     private static bool m_Loaded = false;
 
     private static bool Load(UnityModManager.ModEntry modEntry)
@@ -46,9 +33,6 @@ public static class Main
         Debug.Log("Warhammer 40K: Rogue Trader Speech Mod Initializing...");
 
         Logger = modEntry?.Logger;
-
-        if (!SetSpeech())
-            return false;
 
         Settings = UnityModManager.ModSettings.Load<Settings>(modEntry);
         Hooks.UpdateHoverColor();
@@ -58,16 +42,24 @@ public static class Main
         modEntry!.OnSaveGUI = OnSaveGui;
         //modEntry.Path
 
-        string modLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        Debug.Log($"Adding {modLocation} to Wwise");
-
-        uint bankId;
-        var result1 = AkSoundEngine.AddBasePath(modLocation);
-        var result2 = AkSoundEngine.LoadBank("w40krt_aivo.bnk", out bankId);
-        Debug.Log("Bank path: "+result1 + " Bank loading: " + result2 + " bank ID: " + bankId);
+        
 
         var harmony = new Harmony(modEntry.Info?.Id);
         try {
+
+            string modLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            Debug.Log($"Adding {modLocation} to Wwise");
+
+            // Avoid referencing AK.Wwise.Unity.API -- probably can't redistribute it
+            var akSoundEngine = AccessTools.TypeByName("AkSoundEngine");
+            var addBasePath = akSoundEngine.GetMethod("AddBasePath", new Type[] { typeof(string) });
+            var loadBank = akSoundEngine.GetMethod("LoadBank", new Type[] { typeof(string), typeof(uint).MakeByRefType() });
+
+            var result1 = addBasePath.Invoke(null, new object[] { modLocation });
+            var bankLoadArgs = new object[] { "w40krt_aivo.bnk", 0u };
+            var result2 = loadBank.Invoke(null, bankLoadArgs);
+            Debug.Log("Bank path: " + result1 + " Bank loading: " + result2 + " bank ID: " + bankLoadArgs[1]);
+
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         } catch (Exception e) {
             Debug.Log(e.Message);
@@ -79,12 +71,7 @@ public static class Main
         SetUpSettings();
         harmony.CreateClassProcessor(typeof(SettingsUIPatches)).Patch();
 
-        Logger?.Log(Speech?.GetStatusMessage());
 
-        if (!SetAvailableVoices())
-            return false;
-
-        PhoneticDictionary.LoadDictionary();
         FuzzyResolver.LoadPreprocessedDatabase();
 
         Debug.Log("Warhammer 40K: Rogue Trader Speech Mod Initialized!");
@@ -100,73 +87,6 @@ public static class Main
         ModConfigurationManager.Instance.GroupedSettings.Add("main", [new PlaybackStop(), new ToggleBarks()]);
     }
 
-    private static bool SetAvailableVoices()
-    {
-        var availableVoices = Speech?.GetAvailableVoices();
-
-        if (availableVoices == null || availableVoices.Length == 0)
-        {
-            Logger?.Warning("No available voices found! Disabling mod!");
-            return false;
-        }
-
-        Logger?.Log("Available voices:");
-        foreach (var voice in availableVoices)
-        {
-            Logger?.Log(voice);
-        }
-        Logger?.Log("Setting available voices list...");
-
-        for (var i = 0; i < availableVoices.Length; i++)
-        {
-            var splitVoice = availableVoices[i]?.Split('#');
-            if (splitVoice?.Length != 2 || string.IsNullOrEmpty(splitVoice[1]))
-                availableVoices[i] = availableVoices[i]?.Replace("#", "").Trim() + "#Unknown";
-        }
-
-        // Ensure that the selected voice index falls within the available voices range
-        if (Settings?.NarratorVoice >= availableVoices.Length)
-        {
-            Logger?.Log($"{nameof(Settings.NarratorVoice)} was out of range, resetting to first voice available.");
-            Settings.NarratorVoice = 0;
-        }
-
-        if (Settings?.FemaleVoice >= availableVoices.Length)
-        {
-            Logger?.Log($"{nameof(Settings.FemaleVoice)} was out of range, resetting to first voice available.");
-            Settings.FemaleVoice = 0;
-        }
-
-        if (Settings?.MaleVoice >= availableVoices.Length)
-        {
-            Logger?.Log($"{nameof(Settings.MaleVoice)} was out of range, resetting to first voice available.");
-            Settings.MaleVoice = 0;
-        }
-
-        Settings!.AvailableVoices = availableVoices.OrderBy(v => v.Split('#').ElementAtOrDefault(1)).ToArray();
-
-        return true;
-    }
-
-    private static bool SetSpeech()
-    {
-        switch (Application.platform)
-        {
-            case RuntimePlatform.OSXPlayer:
-                Speech = new AppleSpeech();
-                SpeechExtensions.AddUiElements<AppleVoiceUnity>(Constants.APPLE_VOICE_NAME);
-                break;
-            case RuntimePlatform.WindowsPlayer:
-                Speech = new WindowsSpeech();
-                SpeechExtensions.AddUiElements<WindowsVoiceUnity>(Constants.WINDOWS_VOICE_NAME);
-                break;
-            default:
-                Logger?.Critical($"Warhammer 40K: Rogue Trader SpeechMod is not supported on {Application.platform}!");
-                return false;
-        }
-
-        return true;
-    }
 
     private static bool OnToggle(UnityModManager.ModEntry modEntry, bool value)
     {

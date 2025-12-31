@@ -6,34 +6,6 @@ public class Settings : UnityModManager.ModSettings
 {
     public bool LogVoicedLines = false;
 
-    public string[] AvailableVoices;
-
-    public int NarratorVoice = 0;
-    public int NarratorRate = 0;
-    public int NarratorVolume = 100;
-    public int NarratorPitch = 0;
-
-    public bool UseGenderSpecificVoices = false;
-
-    public int FemaleVoice = 0;
-    public int FemaleRate = 0;
-    public int FemaleVolume = 100;
-    public int FemalePitch = 0;
-
-    public int MaleVoice = 0;
-    public int MaleRate = 0;
-    public int MaleVolume = 100;
-    public int MalePitch = 0;
-
-    public bool UseProtagonistSpecificVoice = false;
-    public int ProtagonistVoice = 0;
-    public int ProtagonistRate = 0;
-    public int ProtagonistVolume = 100;
-    public int ProtagonistPitch = 0;
-
-    public bool AutoPlay = true;
-    public bool AutoPlayIgnoreVoice = false;
-
     public bool ColorOnHover = false;
     public float HoverColorR = 0f;
     public float HoverColorG = 0f;
@@ -47,16 +19,6 @@ public class Settings : UnityModManager.ModSettings
     public bool PlaybackBarks = true;
     public bool PlaybackBarkOnlyIfSilence = false;
     public bool PlaybackBarksInVicinity = true;
-    public bool ShowNotificationOnPlaybackStop = true;
-
-    public bool ShowPlaybackOfDialogAnswers = false;
-    public bool SayDialogAnswerNumber = false;
-    public bool DialogAnswerColorOnHover = true;
-    public float DialogAnswerHoverColorR = 0.15f;
-    public float DialogAnswerHoverColorG = 0.75f;
-    public float DialogAnswerHoverColorB = 0.75f;
-
-    public bool AutoStopPlaybackOnLoading = false;
 
     public override void Save(UnityModManager.ModEntry modEntry)
     {

@@ -9,6 +9,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using GameObject = UnityEngine.GameObject;
 using Object = UnityEngine.Object;
+using AiVoiceoverMod.Voice;
+using Kingmaker.Visual.Sound;
 
 namespace AiVoiceoverMod.Unity;
 
@@ -90,7 +92,7 @@ public static class ButtonFactory
             {
                 text = textMeshProUguis.Where(textOverride => textOverride != null).Select(to => to.text).Aggregate("", (previous, current) => $"{previous}, {current}");
             }
-            Main.Speech?.Speak(text);
+            FuzzyResolver.ResolveAndPlay(text, "PlayBtn", SoundState.Get2DSoundObject());
         });
 
         if (button == null || button.transform == null)
