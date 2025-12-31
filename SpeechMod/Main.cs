@@ -11,6 +11,7 @@ using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityModManagerNet;
+using System.IO;
 
 namespace AiVoiceoverMod;
 
@@ -55,9 +56,24 @@ public static class Main
         modEntry!.OnToggle = OnToggle;
         modEntry!.OnGUI = OnGui;
         modEntry!.OnSaveGUI = OnSaveGui;
+        //modEntry.Path
+
+        string modLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        Debug.Log($"Adding {modLocation} to Wwise");
+
+        uint bankId;
+        var result1 = AkSoundEngine.AddBasePath(modLocation);
+        var result2 = AkSoundEngine.LoadBank("w40krt_aivo.bnk", out bankId);
+        Debug.Log("Bank path: "+result1 + " Bank loading: " + result2 + " bank ID: " + bankId);
 
         var harmony = new Harmony(modEntry.Info?.Id);
-        harmony.PatchAll(Assembly.GetExecutingAssembly());
+        try {
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+        } catch (Exception e) {
+            Debug.Log(e.Message);
+            Debug.Log(e);
+            throw e;
+        }
 
         ModConfigurationManager.Build(harmony, modEntry, Constants.SETTINGS_PREFIX);
         SetUpSettings();
@@ -69,7 +85,7 @@ public static class Main
             return false;
 
         PhoneticDictionary.LoadDictionary();
-        WindowsSpeech.LoadPreprocessedDatabase();
+        FuzzyResolver.LoadPreprocessedDatabase();
 
         Debug.Log("Warhammer 40K: Rogue Trader Speech Mod Initialized!");
         m_Loaded = true;

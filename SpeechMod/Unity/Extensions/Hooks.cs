@@ -1,4 +1,6 @@
-﻿using Owlcat.Runtime.UniRx;
+﻿using AiVoiceoverMod.Voice;
+using Kingmaker.Visual.Sound;
+using Owlcat.Runtime.UniRx;
 using System;
 using TMPro;
 using UniRx;
@@ -150,6 +152,7 @@ public static class Hooks
             {
                 if (clickEvent?.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left)
                 {
+                    FuzzyResolver.ResolveAndPlay(textMeshPro.text, "TextClick", SoundState.Get2DSoundObject());
                     Main.Speech?.Speak(textMeshPro.text);
                 }
             }

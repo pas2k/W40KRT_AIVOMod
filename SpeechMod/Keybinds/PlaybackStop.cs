@@ -5,6 +5,7 @@ using Kingmaker.Code.UI.MVVM.VM.WarningNotification;
 using Kingmaker.Localization;
 using AiVoiceoverMod.Configuration.Settings;
 using System;
+using Kingmaker.Sound.Base;
 #if DEBUG
 using UnityEngine;
 #endif
@@ -51,6 +52,7 @@ public class PlaybackStop() : ModHotkeySettingEntry(KEY, TITLE, TOOLTIP, DEFAULT
 
         private static void StopPlayback(CommonPCView instance)
         {
+            SoundEventsManager.PostEvent("ev_stop_aivo", null);
             if (!Main.Speech?.IsSpeaking() == true)
                 return;
 

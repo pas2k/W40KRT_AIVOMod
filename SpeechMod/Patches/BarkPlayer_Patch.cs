@@ -9,12 +9,31 @@ using Kingmaker.Mechanics.Entities;
 using AiVoiceoverMod.Voice;
 using System;
 using UnityEngine;
+using Kingmaker.Sound;
+using Kingmaker.Sound.Base;
+using Kingmaker.Visual.Sound;
+using Kingmaker.AreaLogic.Cutscenes.Commands;
+using Kingmaker.AreaLogic.Cutscenes;
+using RewiredConsts;
+using UnityEngine.UI;
+using Kingmaker.Signals;
+using Kingmaker.UI.Common;
+using Kingmaker.Localization;
+using Kingmaker.Networking;
 
 namespace AiVoiceoverMod.Patches;
 
 [HarmonyPatch]
 public class BarkPlayer_Patch
 {
+    //[HarmonyPatch(typeof(CommandBarkEntity), nameof(CommandBarkEntity.OnRun), typeof(CutscenePlayerData), typeof(bool))]
+    //[HarmonyPostfix]
+    //public static void CommandBarkEntity_OnRun(CommandBarkEntity __instance)
+    //{
+    //    Debug.Log($"CommandBarkEntity_OnRun. IsSubText: {__instance.IsSubText}, SharedText: {__instance.SharedText}, ONIL: {__instance.OverrideNameInLog}");
+    //}
+
+
     [HarmonyPatch(typeof(BarkPlayer), nameof(BarkPlayer.Bark), typeof(Entity), typeof(string), typeof(float), typeof(string), typeof(BaseUnitEntity), typeof(bool), typeof(string), typeof(Color))]
     [HarmonyPostfix]
     public static void Bark(Entity entity, string text, float duration = -1f, string voiceOver = null, BaseUnitEntity interactUser = null, bool synced = true, string overrideName = null, Color overrideNameColor = default(Color))
@@ -92,6 +111,7 @@ public static class BarkExtensions
 
     public static void DoBark(Entity entity, string text, string voiceOver)
     {
+        Debug.Log($"DoBark");
         if (!string.IsNullOrWhiteSpace(voiceOver))
             return;
 
@@ -100,6 +120,18 @@ public static class BarkExtensions
 
     public static void SpeakBark(string text, Entity entity)
     {
+        Debug.Log("SpeakBark " + text);
+        GameObject obj = entity.View?.GO;
+        if (obj == null)
+        {
+            obj = SoundState.Get2DSoundObject();
+        }
+        if (obj != null)
+        {
+            FuzzyResolver.ResolveAndPlay(text, "Bark", obj);
+        }
+
+        //SoundEventsManager.PostEvent("20", entity);
         if (entity is not LightweightUnitEntity lightweightUnitEntity)
         {
             if (entity is AbstractUnitEntity unitEntity)

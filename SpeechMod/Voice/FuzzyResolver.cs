@@ -1,6 +1,11 @@
+using Kingmaker.Sound.Base;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using UnityEngine;
 
 namespace AiVoiceoverMod.Voice;
 
@@ -163,6 +168,52 @@ public static class NGram
 // ----------------------------
 public sealed class FuzzyResolver
 {
+    public static string s_ModDirectory;
+    public static FuzzyResolver Singleton;
+
+    public static bool ResolveAndPlay(string text, string kind, GameObject obj)
+    {
+        ResolveResult res = Singleton.Query(text);
+        Debug.Log($"{kind} (FUZZY): {res.Best.Id}");
+        SoundEventsManager.PostEvent("ev_" + res.Best.Id, obj);
+        return false;
+    }
+
+    public static void LoadPreprocessedDatabase()
+    {
+        UnityEngine.Debug.Log("Loading preprocessed database...");
+        try
+        {
+            s_ModDirectory = Path.Combine(Constants.LOCAL_LOW_PATH!,
+                "Owlcat Games",
+                "Warhammer 40000 Rogue Trader",
+                "UnityModManager",
+                Constants.MOD_NAME);
+
+            var dbFile = Path.Combine(s_ModDirectory, "enGB-preprocessed.json");
+
+            if (!File.Exists(dbFile))
+            {
+                UnityEngine.Debug.LogWarning($"Preprocessed database not found at: {dbFile}");
+                return;
+            }
+
+            var json = File.ReadAllText(dbFile, Encoding.UTF8);
+            var db = JsonConvert.DeserializeObject<PrecompiledDb>(json);
+
+            if (db != null)
+            {
+                Singleton = new FuzzyResolver(db);
+                UnityEngine.Debug.Log($"Loaded {db.entries.Count} entries from preprocessed database.");
+            }
+        }
+        catch (Exception ex)
+        {
+            UnityEngine.Debug.LogException(ex);
+            UnityEngine.Debug.LogWarning("Failed to load preprocessed database!");
+        }
+    }
+
     private readonly MinHasher _mh;
     private readonly List<DbEntry> _entries;
 

@@ -8,13 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Kingmaker.Sound.Base;
+using Kingmaker.UI.Sound;
 
 namespace AiVoiceoverMod.Voice;
 
 public class WindowsSpeech : ISpeech
 {
-    private static FuzzyResolver s_FuzzyResolver;
-    private static string s_ModDirectory;
     private static string SpeakBegin => "<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xmlns:mstts=\"http://www.w3.org/2001/mstts\">";
     private static string SpeakEnd => "</speak>";
 
@@ -97,6 +97,9 @@ public class WindowsSpeech : ISpeech
 
     public static void PlayOgg(string path)
     {
+        UnityEngine.Debug.Log("FIXME: avoiding speaking");
+        return;
+
         StopVorbis();
 
         // VorbisWaveReader from NAudio.Vorbis
@@ -118,43 +121,11 @@ public class WindowsSpeech : ISpeech
         _waveStream = null;
     }
 
-    public static void LoadPreprocessedDatabase()
-    {
-        UnityEngine.Debug.Log("Loading preprocessed database...");
-        try
-        {
-            s_ModDirectory = Path.Combine(Constants.LOCAL_LOW_PATH!,
-                "Owlcat Games",
-                "Warhammer 40000 Rogue Trader",
-                "UnityModManager",
-                Constants.MOD_NAME);
-
-            var dbFile = Path.Combine(s_ModDirectory, "enGB-preprocessed.json");
-
-            if (!File.Exists(dbFile))
-            {
-                UnityEngine.Debug.LogWarning($"Preprocessed database not found at: {dbFile}");
-                return;
-            }
-
-            var json = File.ReadAllText(dbFile, Encoding.UTF8);
-            var db = JsonConvert.DeserializeObject<PrecompiledDb>(json);
-
-            if (db != null)
-            {
-                s_FuzzyResolver = new FuzzyResolver(db);
-                UnityEngine.Debug.Log($"Loaded {db.entries.Count} entries from preprocessed database.");
-            }
-        }
-        catch (Exception ex)
-        {
-            UnityEngine.Debug.LogException(ex);
-            UnityEngine.Debug.LogWarning("Failed to load preprocessed database!");
-        }
-    }
+    
 
     private void SpeakInternal(string origText, float delay = 0f)
     {
+
         var mcName = Game.Instance.Player.MainCharacterEntity?.CharacterName;
         var text = origText;
         if (mcName != null)
@@ -165,7 +136,7 @@ public class WindowsSpeech : ISpeech
         string localizationKey = null;
 
         // Try to play prerecorded audio if available
-        if (s_FuzzyResolver != null)
+        if (FuzzyResolver.Singleton != null)
         {
             try
             {
@@ -176,7 +147,7 @@ public class WindowsSpeech : ISpeech
                 if (!string.IsNullOrEmpty(cleanText))
                 {
                     // Resolve GUID from text
-                    var result = s_FuzzyResolver.Query(cleanText, topK: 1, refine: true);
+                    var result = FuzzyResolver.Singleton.Query(cleanText, topK: 1, refine: true);
                     UnityEngine.Debug.Log($"Playing prerecorded audio: {localizationKey} (score: {result.Best.Score:0.000})");
                     localizationKey = result.Best.Id;
                 }
@@ -200,6 +171,7 @@ public class WindowsSpeech : ISpeech
 
     public void SpeakPreview(string text, VoiceType voiceType)
     {
+        //Kingmaker.Sound.Base.SoundEventsManager
         if (string.IsNullOrEmpty(text))
         {
             UnityEngine.Debug.LogWarning("No text to speak!");
@@ -323,7 +295,7 @@ public class WindowsSpeech : ISpeech
         {
             // Build path: mod_dir/tts/{first two letters}/{GUID}.ogg
             var prefix = localizationKey.Substring(0, 2);
-            var audioPath = Path.Combine(s_ModDirectory, "tts", prefix, $"{localizationKey}.ogg");
+            var audioPath = Path.Combine(FuzzyResolver.s_ModDirectory, "tts", prefix, $"{localizationKey}.ogg");
             
             if (File.Exists(audioPath))
             {
