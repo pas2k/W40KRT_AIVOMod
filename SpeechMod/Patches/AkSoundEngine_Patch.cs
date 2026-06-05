@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Kingmaker.Sound.Base;
 using UnityEngine;
 using System.Reflection;
+using AiVoiceoverMod.Voice;
 using Kingmaker.UI.Sound;
 using Kingmaker.UI.MVVM.View.ShipCustomization.ShipPosts;
 
@@ -41,6 +42,9 @@ public class AkSoundEngine_Patch
     public static bool Prefix(string in_pszEventName)
     {
         if (in_pszEventName.StartsWith("ev_") && !in_pszEventName.StartsWith("ev_st")) {
+            // Barks disabled: don't play bark/skillcheck clips (their type comes from clips.json, keyed by guid).
+            if (ClipCatalog.IsSuppressedBark(in_pszEventName.Substring(3)))
+                return false;
             return !BarkExtensions.PlayedRecently(in_pszEventName);
         }
         return true;

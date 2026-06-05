@@ -12,7 +12,7 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RestoreAdditionalProjectSources>https://api.nuget.org/v3/index.json</RestoreAdditionalProjectSources>
         <RogueTraderData>$(LocalAppData)Low\Owlcat Games\Warhammer 40000 Rogue Trader</RogueTraderData>
-        <BaseOutputPath>C:\Users\Pas\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager\W40KRT_AIVOMod</BaseOutputPath>
+        <BaseOutputPath></BaseOutputPath>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -33,6 +33,7 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.json" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
+        <None Include="clips.json" Condition="Exists('clips.json')" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
         <None Include="place_tts_sound_files_here.txt" CopyToOutputDirectory="PreserveNewest" Link="soundbanks\%(Filename)%(Extension)" />
         <None Include="../README.md" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
     </ItemGroup>

@@ -20,6 +20,8 @@ internal class ModLocalizationManager
         ApplyLocalization(LocalizationManager.Instance!.CurrentLocale);
 
         (LocalizationManager.Instance as ILocalizationProvider).LocaleChanged += ApplyLocalization;
+
+        ClipCatalog.EnsureLoaded();
     }
 
     public static void ApplyLocalization(Locale currentLocale)
