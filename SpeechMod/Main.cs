@@ -3,7 +3,6 @@ using AiVoiceoverMod.Configuration;
 using AiVoiceoverMod.KeyBinds;
 using AiVoiceoverMod.Unity;
 using AiVoiceoverMod.Unity.Extensions;
-using AiVoiceoverMod.Voice;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,8 +79,8 @@ public static class Main
         SetUpSettings();
         harmony.CreateClassProcessor(typeof(SettingsUIPatches)).Patch();
 
-
-        FuzzyResolver.LoadPreprocessedDatabase();
+        // The fuzzy index is built/loaded from ModLocalizationManager (driven by ModConfigurationManager.Build
+        // above, then by ILocalizationProvider.LocaleChanged), so the correct per-locale index is used.
 
         Debug.Log("Warhammer 40K: Rogue Trader Speech Mod Initialized!");
         m_Loaded = true;

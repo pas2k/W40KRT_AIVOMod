@@ -3,6 +3,7 @@ using Kingmaker.Localization.Enums;
 using Kingmaker.Localization.Shared;
 using Newtonsoft.Json;
 using AiVoiceoverMod.Configuration;
+using AiVoiceoverMod.Voice;
 using System.Collections.Generic;
 using System.IO;
 
@@ -38,6 +39,10 @@ internal class ModLocalizationManager
                 currentPack.PutString(entry.Key, entry.Value.Text);
             }
         }
+
+        // Build/load the fuzzy voiceover index for this locale. Runs on the initial Init() call and again on
+        // every ILocalizationProvider.LocaleChanged (the in-game menu language picker); a no-op when unchanged.
+        FuzzyResolver.EnsureDatabaseForLocale(currentLocale.ToString());
 #if DEBUG
         var localizationFolder = Path.Combine(ModConfigurationManager.Instance?.ModEntry?.Path!, "Localization");
         var packFile = Path.Combine(localizationFolder, Locale.enGB + ".json");

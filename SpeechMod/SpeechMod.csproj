@@ -14,6 +14,10 @@
         <RogueTraderData>$(LocalAppData)Low\Owlcat Games\Warhammer 40000 Rogue Trader</RogueTraderData>
         <BaseOutputPath>C:\Users\Pas\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager\W40KRT_AIVOMod</BaseOutputPath>
     </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+    </PropertyGroup>
     <ItemGroup>
         <Reference Include="$(RogueTraderInstallDir)\WH40KRT_Data\Managed\0Harmony.dll*" Private="false" />
         <Reference Include="$(RogueTraderInstallDir)\WH40KRT_Data\Managed\Code.dll*" Publicize="true" Private="false" />
@@ -29,7 +33,6 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="Info.json" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
-        <None Include="enGB-preprocessed.json" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
         <None Include="place_tts_sound_files_here.txt" CopyToOutputDirectory="PreserveNewest" Link="soundbanks\%(Filename)%(Extension)" />
         <None Include="../README.md" CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" />
     </ItemGroup>
