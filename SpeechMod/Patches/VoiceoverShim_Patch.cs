@@ -18,6 +18,8 @@ namespace AiVoiceoverMod.Patches
                 if (__instance.Key == "")
                 {
                     ResolveResult res = FuzzyResolver.Singleton.Query(__instance.Text);
+                    if (ClipCatalog.IsSuppressedBark(res.Best.Id))
+                        return;
                     Debug.Log("FIXING (FUZZY): " + res.Best.Id + ": " + __instance.Text);
                     __result = "ev_" + res.Best.Id;
                 }

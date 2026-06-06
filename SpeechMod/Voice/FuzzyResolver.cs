@@ -236,6 +236,8 @@ public sealed class FuzzyResolver
 #if DEBUG
         Debug.Log($"{kind} (FUZZY): {res.Best.Id}");
 #endif
+        if (ClipCatalog.IsSuppressedBark(res.Best.Id))
+            return false;
         SoundEventsManager.PostEvent("ev_" + res.Best.Id, obj);
         return false;
     }

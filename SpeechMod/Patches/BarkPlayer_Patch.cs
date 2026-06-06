@@ -130,6 +130,8 @@ public static class BarkExtensions
 
     public static bool PlayedRecently(string value)
     {
+        if (ClipCatalog.IsSuppressedBark(value.Substring(3)))
+            return true;
         if (Main.Settings.SoundDedupTimeout <= 0)
         {
             Debug.LogWarning("Never played recently");

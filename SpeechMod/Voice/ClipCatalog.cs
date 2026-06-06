@@ -14,7 +14,7 @@ public static class ClipCatalog
 {
     // The clips.json "t" values that count as barks for the PlaybackBarks toggle.
     private static readonly HashSet<string> s_BarkTypes =
-        new(StringComparer.OrdinalIgnoreCase) { "bark", "skillcheck" };
+        new(StringComparer.OrdinalIgnoreCase) { "bark", "skillcheck", "dialog_string" };
 
     private static HashSet<string> s_BarkGuids;
     private static bool s_Loaded;
@@ -67,6 +67,7 @@ public static class ClipCatalog
         if (Main.Settings == null || Main.Settings.PlaybackBarks)
             return false;
         EnsureLoaded();
-        return s_BarkGuids.Contains(guid);
+        bool isBark = s_BarkGuids.Contains(guid);
+        return isBark;
     }
 }
