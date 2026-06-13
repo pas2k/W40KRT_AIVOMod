@@ -21,6 +21,7 @@ This mod would not be possible without massive work put into its foundation, Spe
  - Copy the W40KRT_AIVOMod folder into the UnityModManager folder
  - Copy your selected voice pack (.bnk file) into W40KRT_AIVOMod\soundbanks
  - Launch Warhammer 40K: Rogue Trader, you may need to hit ctrl+F10 to see the mod manager window.
+ - On updating, remove .dll.\*.cache from mod directory to be sure you're using the latest version
 
 
 ## Available voiceover packs
@@ -33,9 +34,9 @@ Charvogen source is provided, feel free to experiment and contribute better voic
 [Download here](https://www.nexusmods.com/warhammer40kroguetrader/mods/429)
 
 
-### Voice-cloned characters from Rogue Trader
+### (Outdated) Voice-cloned characters from Rogue Trader
 
-Limited roster, limited genders, but most faithful representation to the game. Might have conflict of interests with voice actors, so might be taken down.
+Doesn't contain fixes or DLCs starting with Infinite Museion. Limited roster, limited genders, but most faithful representation to the game. Might have conflict of interests with voice actors, so might be taken down.
 
 [Download here](https://www.nexusmods.com/warhammer40kroguetrader/mods/430)
 

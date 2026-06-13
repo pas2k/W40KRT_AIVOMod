@@ -6,6 +6,6 @@
   "Requirements": [],
   "AssemblyName": "W40KRT_AIVOMod.dll",
   "EntryMethod": "AiVoiceoverMod.Main.Load",
-  "HomePage": "https://www.nexusmods.com/warhammer40kroguetrader/mods/<TBD>",
-  "Version": "0.1.0"
+  "HomePage": "https://www.nexusmods.com/warhammer40kroguetrader/mods/431",
+  "Version": "0.2.0"
 }
